@@ -1,0 +1,47 @@
+
+create table users(username varchar(50) not null primary key,
+password varchar(100) not null, 
+enabled boolean not null);
+
+
+create table authorities (
+ username varchar(50) not null, 
+ authority varchar(50) not null,
+ constraint fk_authorities_users
+ foreign key (username) references users(username));
+ create unique index ix_auth_username on
+ authorities (username, authority);
+ 
+ 
+INSERT INTO users (username, password, enabled)
+values ("test", "Test", true);
+
+INSERT INTO authorities(username, authority)
+values ("test", "ROLE_USER");
+
+
+INSERT INTO users (username, password, enabled)
+values ("admin", "Admin", true);
+
+INSERT INTO authorities(username, authority)
+values ("admin", "ROLE_ADMIN");
+ 
+INSERT INTO users (username, password, enabled)
+values ("mokter", "M0kter", true);
+
+INSERT INTO authorities(username, authority)
+values ("mokter", "ROLE_USER");
+
+
+update users set password = "e3afed0047b08059d0fada10f400c1e5" where username = "admin";
+update users set password = "8fa7674754731810502e97527a4809c8" where username = "mokter";
+update users set password = "0cbc6611f5540bd0809a388dc95a615b" where username = "test";
+ 
+alter table users modify password varchar(100);
+
+
+update users set password = "$2a$10$KySXldwv5IqO1ODu7IFBAOi58Ilc5.a4yDvapZ/VNAFNySTq6WFfC" where username = "admin";
+update users set password = "$2a$10$/Z/tk1MW873pgVu1N1Z5UeNWaka94UnkWQ92QlQI4BP4B4SmSNMVO" where username = "mokter";
+update users set password = "$2a$10$xL5zLMSUop8vkUG.IMwS.euftUlOBz1v.DN6gYnAI36/ymIPEkYfm" where username = "test";
+
+ 
